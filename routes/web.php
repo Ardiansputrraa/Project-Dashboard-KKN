@@ -4,15 +4,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DplController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProfileController;
 
 
 Route::controller(AuthController::class)->group(function (){
     Route::get('register', 'register')->name('register');
-    Route::post('register', 'registerSave')->name('register.save');
+    Route::post('register-save', 'registerSave')->name('register.save');
 
-    Route::get('/', 'login')->name('login');
-    Route::post('login', 'loginCheck')->name('login.check');
+    Route::get('login', 'login')->name('login');
+    Route::post('login-check', 'loginCheck')->name('login.check');
 
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 })->middleware('auth');
@@ -20,14 +21,18 @@ Route::controller(AuthController::class)->group(function (){
 Route::middleware(['auth'])->group(function () {
     Route::controller(ProfileController::class)->group(function () {
         Route::get('profile', 'profile')->name('profile');
-        Route::post('profile', 'updateProfile')->name('profile.update');
+        Route::post('update-profile', 'updateProfile')->name('profile.update');
     });
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::controller(DplController::class)->group(function () {
         Route::get('dpl', 'dpl')->name('dpl');
-        Route::get('getDataDpl', 'getData')->name('get.data.dpl');
+        Route::get('get-data-dpl', 'getDataDpl')->name('get.data.dpl');
+        Route::get('download-data-dpl', 'downloadDataDpl')->name('download.data.dpl');
+        Route::get('detail-dpl/{namaLengkap}', 'detailDpl')->name('detail.dpl');
+        Route::post('update-detail-dpl', 'updateDetailDpl')->name('update.detail.dpl');
+        Route::get('delete-data-dpl/{namaLengkap}', 'deleteDataDpl')->name('delete.data.dpl');
     });
 });
 

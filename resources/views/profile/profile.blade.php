@@ -17,22 +17,15 @@
             let fakultas = $("#fakultas").val() || @json($users->getTableDatabase()->fakultas);
             let prodi = $("#prodi").val() || @json($users->getTableDatabase()->prodi);
             let nomerWhatsapp = $("#nomerWhatsapp").val() || @json($users->getTableDatabase()->nomerWhatsapp);
+
+            form_data.append("foto", file);
+
             if (role == 'Admin') {
-                if (file !== undefined) {
-                    form_data.append("foto", file); 
-                } else {
-                    form_data.append("{{ $users->getTableDatabase()->foto }}", file); 
-                }
                 form_data.append("_token", "{{ csrf_token() }}");
                 form_data.append("namaLengkap", namaLengkap);
                 form_data.append("email", email);
                 form_data.append("nomerWhatsapp", nomerWhatsapp);
             } else if (role == 'Mahasiswa') {
-                if (file !== undefined) {
-                    form_data.append("foto", file); 
-                } else {
-                    form_data.append("{{ $users->getTableDatabase()->foto }}", file); 
-                }
                 form_data.append("_token", "{{ csrf_token() }}");
                 form_data.append("namaLengkap", namaLengkap);
                 form_data.append("npm", npm);
@@ -41,11 +34,6 @@
                 form_data.append("email", email);
                 form_data.append("nomerWhatsapp", nomerWhatsapp);
             } else if (role == 'Dpl') {
-                if (file !== undefined) {
-                    form_data.append("foto", file); 
-                } else {
-                    form_data.append("{{ $users->getTableDatabase()->foto }}", file); 
-                }
                 form_data.append("_token", "{{ csrf_token() }}");
                 form_data.append("namaLengkap", namaLengkap);
                 form_data.append("gelar", gelar);
@@ -60,10 +48,6 @@
         }
 
         function updateProfile() {
-
-
-
-            // Kirim data melalui AJAX
             $.ajax({
                 type: "POST",
                 url: "{{ route('profile.update') }}",
@@ -73,19 +57,15 @@
                 processData: false,
                 success: function(response) {
                     Swal.fire({
-                        title: "Update Successful",
-                        text: response.msg,
+                        title: "Update Berhasil",
+                        text: "Profile Berhasil Diubah!",
                         icon: "success",
                         confirmButtonText: "Oke",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.reload();
-                        }
                     });
                 },
                 error: function(xhr) {
                     Swal.fire({
-                        title: "Update Failed",
+                        title: "Update Failed!",
                         text: xhr.responseText,
                         icon: "error",
                         confirmButtonText: "Oke",
@@ -211,19 +191,28 @@
                                             <div class="col-md-10">
                                                 <label for="falkutas"
                                                     class="form-label"><strong>Fakultas</strong></label>
-                                                <select class="form-control" id="falkutas">
-                                                    <option value="{{ $users->getTableDatabase()->fakultas }}" disabled
-                                                        selected>
-                                                        {{ $users->getTableDatabase()->fakultas }}</option>
-                                                    <option value="Fakultas Kedokteran">Fakultas Kedokteran</option>
-                                                    <option value="Fakultas Kedokteran Gigi">Fakultas Kedokteran Gigi
-                                                    </option>
-                                                    <option value="Fakultas Psikologi">Fakultas Psikologi</option>
-                                                    <option value="Fakultas Ekonomi">Fakultas Ekonomi</option>
-                                                    <option value="Fakultas Teknologi Informasi">Fakultas Teknologi
-                                                        Informasi</option>
-                                                    <option value="Fakultas Hukum">Fakultas Hukum</option>
+                                                <select class="form-control" id="fakultas" name="fakultas">
+                                                    <option disabled selected>Pilih Fakultas</option>
+                                                    <option value="Fakultas Kedokteran"
+                                                        {{ $users->getTableDatabase()->fakultas == 'Fakultas Kedokteran' ? 'selected' : '' }}>
+                                                        Fakultas Kedokteran</option>
+                                                    <option value="Fakultas Kedokteran Gigi"
+                                                        {{ $users->getTableDatabase()->fakultas == 'Fakultas Kedokteran Gigi' ? 'selected' : '' }}>
+                                                        Fakultas Kedokteran Gigi</option>
+                                                    <option value="Fakultas Psikologi"
+                                                        {{ $users->getTableDatabase()->fakultas == 'Fakultas Psikologi' ? 'selected' : '' }}>
+                                                        Fakultas Psikologi</option>
+                                                    <option value="Fakultas Ekonomi"
+                                                        {{ $users->getTableDatabase()->fakultas == 'Fakultas Ekonomi' ? 'selected' : '' }}>
+                                                        Fakultas Ekonomi</option>
+                                                    <option value="Fakultas Teknologi Informasi"
+                                                        {{ $users->getTableDatabase()->fakultas == 'Fakultas Teknologi Informasi' ? 'selected' : '' }}>
+                                                        Fakultas Teknologi Informasi</option>
+                                                    <option value="Fakultas Hukum"
+                                                        {{ $users->getTableDatabase()->fakultas == 'Fakultas Hukum' ? 'selected' : '' }}>
+                                                        Fakultas Hukum</option>
                                                 </select>
+
                                             </div>
                                         </div>
                                     </div>
@@ -232,22 +221,32 @@
                                         <div class="row justify-content-start align-items-center">
                                             <div class="col-md-10">
                                                 <label for="prodi" class="form-label"><strong>Prodi</strong></label>
-                                                <select class="form-control" id="prodi">
-                                                    <option value="{{ $users->getTableDatabase()->prodi }}" disabled
-                                                        selected>
-                                                        {{ $users->getTableDatabase()->prodi }}</option>
-                                                    <option value="Prodi Kedokteran">Prodi Kedokteran</option>
-                                                    <option value="Prodi Kedokteran Gigi">Prodi Kedokteran Gigi
-                                                    </option>
-                                                    <option value="Prodi Psikologi">Prodi Psikologi</option>
-                                                    <option value="Prodi Akutansi">Prodi Akutansi</option>
-                                                    <option value="Prodi Manajemen">Prodi Manajemen</option>
-                                                    <option value="Prodi Teknik Informatika">Prodi Teknik Informatika
-                                                    </option>
-                                                    <option value="Prodi Perpustakaan Sains Informasi">Prodi
-                                                        Perpustakaan
-                                                        Sains Informasi</option>
-                                                    <option value="Prodi Hukum">Prodi Hukum</option>
+                                                <select class="form-control" id="prodi" name="prodi">
+                                                    <option disabled selected>Pilih Program Studi</option>
+                                                    <option value="Prodi Kedokteran"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Kedokteran' ? 'selected' : '' }}>
+                                                        Prodi Kedokteran</option>
+                                                    <option value="Prodi Kedokteran Gigi"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Kedokteran Gigi' ? 'selected' : '' }}>
+                                                        Prodi Kedokteran Gigi</option>
+                                                    <option value="Prodi Psikologi"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Psikologi' ? 'selected' : '' }}>
+                                                        Prodi Psikologi</option>
+                                                    <option value="Prodi Akutansi"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Akutansi' ? 'selected' : '' }}>
+                                                        Prodi Akutansi</option>
+                                                    <option value="Prodi Manajemen"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Manajemen' ? 'selected' : '' }}>
+                                                        Prodi Manajemen</option>
+                                                    <option value="Prodi Teknik Informatika"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Teknik Informatika' ? 'selected' : '' }}>
+                                                        Prodi Teknik Informatika</option>
+                                                    <option value="Prodi Perpustakaan Sains Informasi"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Perpustakaan Sains Informasi' ? 'selected' : '' }}>
+                                                        Prodi Perpustakaan Sains Informasi</option>
+                                                    <option value="Prodi Hukum"
+                                                        {{ $users->getTableDatabase()->prodi == 'Prodi Hukum' ? 'selected' : '' }}>
+                                                        Prodi Hukum</option>
                                                 </select>
                                             </div>
                                         </div>

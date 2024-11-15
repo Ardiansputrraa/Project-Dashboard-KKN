@@ -68,6 +68,9 @@
                         <ul class="submenu-list list-unstyled">
                             <li class="submenu-item"><a class="submenu-link" href="notifications.html">Kelompok</a></li>
                             <li class="submenu-item"><a class="submenu-link" href="{{ route('dpl') }}">DPL</a></li>
+                            @if (Auth::check() && Auth::user()->role != 'Mahasiswa')
+                            <li class="submenu-item"><a class="submenu-link" href="notifications.html">Mahasiswa</a></li>
+                            @endif
                             <li class="submenu-item"><a class="submenu-link" href="settings.html">Lokasi</a></li>
                         </ul>
                     </div>
