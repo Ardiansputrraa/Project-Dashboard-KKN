@@ -14,11 +14,7 @@ class ProfileController extends Controller
     public function profile()
     {
         $users = Auth::user();
-        $admin = $users->admin;
-        $mahasiswa = $users->mahasiswa;
-        $dpl = $users->dpl;
-
-        return view('profile.profile', compact('users', 'admin', 'mahasiswa', 'dpl'));
+        return view('profile.profile', compact('users'));
     }
 
     public function updateProfile(Request $request)
