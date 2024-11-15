@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dpl;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 
 class DplController extends Controller
@@ -13,9 +13,7 @@ class DplController extends Controller
 
     public function dpl()
     {
-        $users = Auth::user();
-
-        return view('informasi.dpl.dpl', compact('users'));
+        return view('informasi.dpl.dpl');
     }
     public function getDataDpl()
     {
@@ -100,5 +98,20 @@ class DplController extends Controller
         $dpl->delete();
 
         return redirect()->back()->with('success', 'Data DPL Berhasil Dihapus.');
+    }
+
+    public function searchDataDpl(Request $request)
+    {
+        $keyword = $request->get('keyword');
+        $results = Dpl::where('namaLengkap', 'LIKE', '%' . $keyword . '%') 
+                    ->orWhere('inisial', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('gelar', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('fakultas', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('prodi', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                    ->orWhere('nomerWhatsapp', 'LIKE', '%' . $keyword . '%')
+                    ->get();
+
+        return response()->json($results);
     }
 }

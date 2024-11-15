@@ -6,9 +6,71 @@
 
     <script>
         $(document).ready(function() {
-            let role = "{{ $users->role }}";
+            let role = "{{ Auth::user()->role }}";
             if (role === "Admin") {
                 getDataDpl();
+                $('#search').on('keyup', function() {
+                    let query = $(this).val();
+
+                    $.ajax({
+                        url: "{{ route('search.data.dpl') }}",
+                        type: "GET",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            keyword: query,
+                        },
+                        success: function(data) {
+                            let tabelDpl = $("#tabelDpl");
+                            tabelDpl.empty();
+
+                            if (data.length > 0) {
+                                for (let i = 0; i < data.length; i++) {
+                                    let tabelTemp = `<tr>
+                                                <td class="cell">${data[i]["namaLengkap"]}</td>
+                                                <td class="cell">${data[i]["inisial"]}</td>
+                                                <td class="cell">${data[i]["gelar"]}</td>
+                                                <td class="cell">${data[i]["fakultas"]}</td>
+                                                <td class="cell">${data[i]["prodi"]}</td>
+                                                <td class="cell">${data[i]["email"]}</td>
+                                                <td class="cell">${data[i]["nomerWhatsapp"]}</td>
+                                                <td class="cell"><span class="badge ${data[i]["status"] === "Terdaftar" ? 'bg-success' : 'bg-danger'}">${data[i]["status"]}</td>
+                                                <td class="cell">
+                                                    <div class="button-group">
+                                                        <a class="btn-sm app-btn-secondary" href="/detail-dpl/${data[i]["namaLengkap"]}">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor"
+                                                                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                                <path fill-rule="evenodd"
+                                                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                            </svg>
+                                                        </a>
+                                                        <button class="btn-sm app-btn-secondary" onclick="deleteDataDpl('${data[i]["namaLengkap"]}')">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                height="16" fill="currentColor"
+                                                                class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>`
+                                    $("#tabelDpl").append(tabelTemp);
+                                }
+
+                            } else {
+                                tabelDpl.append(
+                                    '<tr><td colspan="9" class="text-center">Tidak ada data ditemukan</td></tr>'
+                                );
+                            }
+                        },
+                        error: function() {
+                            alert('Terjadi kesalahan saat memuat data.');
+                        }
+                    });
+                });
             }
         });
 
@@ -116,11 +178,8 @@
                                     <div class="col-auto">
                                         <form class="docs-search-form row gx-1 align-items-center">
                                             <div class="col-auto">
-                                                <input type="text" id="search-docs" name="searchdocs"
-                                                    class="form-control search-docs" placeholder="Search">
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="btn app-btn-secondary">Search</button>
+                                                <input type="text" id="search" name="searchdocs"
+                                                    class="form-control search-docs text-primary" placeholder="Search">
                                             </div>
                                         </form>
 
@@ -183,7 +242,7 @@
                     </div><!--//container-fluid-->
                 @endif
 
-                @if (Auth::check() && Auth::user()->role == 'Admin')
+                @if (Auth::check() && Auth::user()->role != 'Admin')
                 @endif
 
             </div><!--//app-content-->

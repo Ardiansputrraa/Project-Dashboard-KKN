@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DplController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MahasiswaController;
 
 
 Route::controller(AuthController::class)->group(function (){
@@ -33,6 +33,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('detail-dpl/{namaLengkap}', 'detailDpl')->name('detail.dpl');
         Route::post('update-detail-dpl', 'updateDetailDpl')->name('update.detail.dpl');
         Route::get('delete-data-dpl/{namaLengkap}', 'deleteDataDpl')->name('delete.data.dpl');
+        Route::get('search-data-dpl', 'searchDataDpl')->name('search.data.dpl');
+    });
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::controller(MahasiswaController::class)->group(function () {
+        Route::get('mahasiswa', 'mahasiswa')->name('mahasiswa');
+        Route::get('get-data-mahasiswa', 'getDataMahasiswa')->name('get.data.mahasiswa');
     });
 });
 
