@@ -115,7 +115,7 @@
                         text: "Akun " + role + " berhasil dibuat!",
                         confirmButtonText: "Oke",
                     }).then(() => {
-                        window.location.href = "{{ route('profile') }}"; 
+                        window.location.href = "{{ route('dpl') }}"; 
                     });
                 },
                 error: function(xhr) {

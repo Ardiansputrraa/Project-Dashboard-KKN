@@ -15,12 +15,7 @@ class AuthController extends Controller
 {
     public function register(Request $request) {
         $role = $request->query('role');
-        if ($role === 'admin') {
-            return view('auth.register', ['role' => 'admin']);
-        } else if ($role === 'dpl') {
-            return view('auth.register', ['role' => 'dpl']);
-        }
-        return view('auth.register', ['role' => 'mahasiswa']);
+        return view('auth.register', ['role' => $role]);
     }
 
     public function registerSave(Request $request) {
@@ -81,9 +76,9 @@ class AuthController extends Controller
                 'status' => 'Belum Terdaftar',
             ]);
         } else {
-            return response()->json(['message' => 'Tentukan role akun terlebih dahulu.'], 200);
+            return response()->json(['success' => 'Tentukan role akun terlebih dahulu.'], 200);
         }
-        return response()->json(['message' => 'Registrasi berhasil.'], 200);
+        return response()->json(['success' => 'Registrasi berhasil.'], 200);
     }
 
     public function login(){
@@ -101,13 +96,13 @@ class AuthController extends Controller
                 'username' => trans('auth.failed')
             ]);
         }
-        // mengambil user info
+
         $users = Auth::user();
 
         $request->session()->regenerate();
         
         return response()->json([
-            'message' => 'Login berhasil.',
+            'msg' => 'Login berhasil.',
             'users' => $users,
         ], 200);
     }
@@ -119,7 +114,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')->with('message', 'Anda telah berhasil logout');
+        return redirect()->route('login')->with('msg', 'Anda Telah Berhasil Logout');
     }
     
 }

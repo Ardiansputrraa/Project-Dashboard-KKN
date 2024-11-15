@@ -16,7 +16,7 @@ class Authenticate
     public function handle(Request $request, Closure $next, ...$guards)
     {
         if (Auth::check()) {
-            $timeout = 120 * 60;  
+            $timeout = 240 * 60;  
             $lastActivity = session('last_activity', time());
 
             if ((time() - $lastActivity) > $timeout) {

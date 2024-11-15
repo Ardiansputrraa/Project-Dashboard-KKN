@@ -70,7 +70,7 @@
                     var errorMessage = errorResponse.message || 'Terjadi kesalahan. Silakan coba lagi.';
                     Swal.fire({
                         icon: "error",
-                        title: "Login Gagal",
+                        title: "Login Gagal!",
                         text: "Pastikan username dan password telah sesuai!",
                         confirmButtonText: "Oke",
                     });
