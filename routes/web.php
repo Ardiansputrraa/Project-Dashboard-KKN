@@ -41,6 +41,11 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(MahasiswaController::class)->group(function () {
         Route::get('mahasiswa', 'mahasiswa')->name('mahasiswa');
         Route::get('get-data-mahasiswa', 'getDataMahasiswa')->name('get.data.mahasiswa');
+        Route::get('download-data-mahasiswa', 'downloadDataMahasiswa')->name('download.data.mahasiswa');
+        Route::get('detail-mahasiswa/{namaLengkap}', 'detailMahasiswa')->name('detail.mahasiswa');
+        Route::post('update-detail-mahasiswa', 'updateDetailMahasiswa')->name('update.detail.mahasiswa');
+        Route::get('delete-data-mahasiswa/{namaLengkap}', 'deleteDataMahasiswa')->name('delete.data.mahasiswa');
+        Route::get('search-data-mahasiswa', 'searchDataMahasiswa')->name('search.data.mahasiswa');
     });
 });
 
