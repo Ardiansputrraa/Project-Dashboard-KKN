@@ -3,7 +3,7 @@
     <div class="sidepanel-inner d-flex flex-column">
         <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
         <div class="app-branding">
-            <a class="app-logo" href="index.html"><img class="logo-icon me-2" src="assets/images/logo.jpg"
+            <a class="app-logo" href="index.html"><img class="logo-icon me-2" src="{{ asset('assets/images/logo.jpg') }}"
                     alt="logo"><span class="logo-text">Dashboard KKN</span></a>
 
         </div><!--//app-branding-->
@@ -66,10 +66,10 @@
                     </a><!--//nav-link-->
                     <div id="submenu-2" class="collapse submenu submenu-2" data-bs-parent="#menu-accordion">
                         <ul class="submenu-list list-unstyled">
-                            <li class="submenu-item"><a class="submenu-link" href="notifications.html">Kelompok</a></li>
+                            <li class="submenu-item"><a class="submenu-link" href="{{ route('mahasiswa') }}">Kelompok</a></li>
                             <li class="submenu-item"><a class="submenu-link" href="{{ route('dpl') }}">DPL</a></li>
                             @if (Auth::check() && Auth::user()->role != 'Mahasiswa')
-                            <li class="submenu-item"><a class="submenu-link" href="notifications.html">Mahasiswa</a></li>
+                            <li class="submenu-item"><a class="submenu-link" href="{{ route('mahasiswa') }}">Mahasiswa</a></li>
                             @endif
                             <li class="submenu-item"><a class="submenu-link" href="settings.html">Lokasi</a></li>
                         </ul>

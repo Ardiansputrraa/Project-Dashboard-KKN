@@ -5,7 +5,6 @@
 
     <x-header></x-header>
     <script>
-        
         function updateDetailDpl() {
             let username = "{{ $user->username }}";
             let namaLengkap = $("#namaLengkap").val() || @json($user->getTableDatabase()->namaLengkap);
@@ -104,43 +103,27 @@
 
                                     </div>
                                 </div>
-                                @if ($user->role == 'Dpl')
-                                    <div class="item border-bottom py-3">
-                                        <div class="row justify-content-start align-items-center">
-                                            <div class="col-md-10">
-                                                <label for="gelar" class="form-label"><strong>Gelar</strong></label>
-                                                <input type="text" class="form-control" id="gelar"
-                                                    placeholder="{{ $user->getTableDatabase()->gelar }}" />
-                                            </div>
-
+                                <div class="item border-bottom py-3">
+                                    <div class="row justify-content-start align-items-center">
+                                        <div class="col-md-10">
+                                            <label for="gelar" class="form-label"><strong>Gelar</strong></label>
+                                            <input type="text" class="form-control" id="gelar"
+                                                placeholder="{{ $user->getTableDatabase()->gelar }}" />
                                         </div>
+
                                     </div>
+                                </div>
 
-                                    <div class="item border-bottom py-3">
-                                        <div class="row justify-content-start align-items-center">
-                                            <div class="col-md-10">
-                                                <label for="inisial"
-                                                    class="form-label"><strong>Inisial</strong></label>
-                                                <input type="text" class="form-control" id="inisial"
-                                                    placeholder="{{ $user->getTableDatabase()->inisial }}" />
-                                            </div>
-
+                                <div class="item border-bottom py-3">
+                                    <div class="row justify-content-start align-items-center">
+                                        <div class="col-md-10">
+                                            <label for="inisial" class="form-label"><strong>Inisial</strong></label>
+                                            <input type="text" class="form-control" id="inisial"
+                                                placeholder="{{ $user->getTableDatabase()->inisial }}" />
                                         </div>
-                                    </div>
-                                @endif
 
-                                @if ($user->role == 'Mahasiswa')
-                                    <div class="item border-bottom py-3">
-                                        <div class="row justify-content-start align-items-center">
-                                            <div class="col-md-10">
-                                                <label for="npm" class="form-label"><strong>NPM</strong></label>
-                                                <input type="text" class="form-control" id="npm"
-                                                    placeholder="{{ $user->getTableDatabase()->npm }}" />
-                                            </div>
-
-                                        </div>
                                     </div>
-                                @endif
+                                </div>
 
                                 <div class="item border-bottom py-3">
                                     <div class="row justify-content-start align-items-center">
@@ -231,7 +214,8 @@
 
                             </div><!--//app-card-body-->
                             <div class="app-card-footer p-4 mt-auto">
-                                <button class="btn app-btn-secondary" type="button" onclick="updateDetailDpl()">Update
+                                <button class="btn app-btn-secondary" type="button"
+                                    onclick="updateDetailDpl()">Update
                                     Data</button>
                             </div><!--//app-card-footer-->
 
